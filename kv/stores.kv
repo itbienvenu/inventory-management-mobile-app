@@ -1,0 +1,114 @@
+<StoresScreen>:
+    name: 'stores'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [12,12]
+        spacing: 12
+        canvas.before:
+            Color:
+                rgba: 0.06, 0.08, 0.12, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        CommonHeader:
+            Label:
+                text: 'Stores'
+                font_size: '20sp'
+                bold: True
+                color: 1,1,1,1
+            Button:
+                text: 'Back'
+                size_hint_x: None
+                width: '80dp'
+                background_normal: ''
+                background_color: 0.3,0.3,0.3,1
+                color: 1,1,1,1
+                on_press: app.root.current = 'dashboard'
+
+        Button:
+            text: 'Add Store'
+            size_hint_y: None
+            height: '48dp'
+            on_press: app.add_store()
+            background_normal: ''
+            background_color: 0.16, 0.6, 0.35, 1
+            color: 1,1,1,1
+
+        ScrollView:
+            do_scroll_x: False
+            GridLayout:
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 12
+                padding: [6,6]
+
+                # Store Item
+                BoxLayout:
+                    size_hint_y: None
+                    height: '60dp'
+                    padding: [10,10]
+                    canvas.before:
+                        Color:
+                            rgba: 0.14, 0.16, 0.18, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8]
+                    Label:
+                        text: 'Manchester, UK'
+                        font_size: '16sp'
+                        bold: True
+                        color: 1,1,1,1
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: '60dp'
+                    padding: [10,10]
+                    canvas.before:
+                        Color:
+                            rgba: 0.14, 0.16, 0.18, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8]
+                    Label:
+                        text: 'Yorkshire, UK'
+                        font_size: '16sp'
+                        bold: True
+                        color: 1,1,1,1
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: '60dp'
+                    padding: [10,10]
+                    canvas.before:
+                        Color:
+                            rgba: 0.14, 0.16, 0.18, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8]
+                    Label:
+                        text: 'Hull, UK'
+                        font_size: '16sp'
+                        bold: True
+                        color: 1,1,1,1
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: '60dp'
+                    padding: [10,10]
+                    canvas.before:
+                        Color:
+                            rgba: 0.14, 0.16, 0.18, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8]
+                    Label:
+                        text: 'Leicester, UK'
+                        font_size: '16sp'
+                        bold: True
+                        color: 1,1,1,1

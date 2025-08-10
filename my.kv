@@ -1,0 +1,25 @@
+# inventor_kv.kv
+# Full KV for Inventor.io — modernized UI for all screens
+<MyScreenManager>:
+    LoginScreen:
+    RegisterScreen:
+    DashboardScreen:
+    ProductsScreen:
+    StoresScreen:
+    OrdersScreen:
+    SuppliersScreen:
+    ReportsScreen:
+    SettingsScreen:
+    AddProductScreen:
+
+<CommonHeader@BoxLayout>:
+    size_hint_y: None
+    height: '60dp'
+    padding: [12, 10]
+    spacing: 10
+    canvas.before:
+        Color:
+            rgba: 0.08, 0.12, 0.16, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size

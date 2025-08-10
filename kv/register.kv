@@ -1,0 +1,91 @@
+<RegisterScreen>:
+    name: 'register'
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: 0.06, 0.08, 0.12, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.86, None
+            height: self.minimum_height
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            spacing: 16
+            padding: [28, 24]
+            canvas.before:
+                Color:
+                    rgba: 0.12, 0.16, 0.2, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [18]
+
+            Label:
+                text: 'Create an account'
+                font_size: '22sp'
+                bold: True
+                color: 1,1,1,1
+                size_hint_y: None
+                height: '40dp'
+
+            TextInput:
+                id: reg_username
+                hint_text: 'Username'
+                multiline: False
+                size_hint_y: None
+                height: '48dp'
+                background_normal: ''
+                background_color: 0.14, 0.18, 0.22, 1
+                foreground_color: 1,1,1,1
+                cursor_color: 1,1,1,1
+                padding: [14, 12]
+                font_size: '16sp'
+
+            TextInput:
+                id: reg_email
+                hint_text: 'Email'
+                multiline: False
+                size_hint_y: None
+                height: '48dp'
+                background_normal: ''
+                background_color: 0.14, 0.18, 0.22, 1
+                foreground_color: 1,1,1,1
+                cursor_color: 1,1,1,1
+                padding: [14, 12]
+                font_size: '16sp'
+
+            TextInput:
+                id: reg_password
+                hint_text: 'Password'
+                password: True
+                multiline: False
+                size_hint_y: None
+                height: '48dp'
+                background_normal: ''
+                background_color: 0.14, 0.18, 0.22, 1
+                foreground_color: 1,1,1,1
+                cursor_color: 1,1,1,1
+                padding: [14, 12]
+                font_size: '16sp'
+
+            BoxLayout:
+                size_hint_y: None
+                height: '48dp'
+                spacing: 12
+
+                Button:
+                    text: 'Register'
+                    background_normal: ''
+                    background_color: 0.09, 0.6, 0.35, 1
+                    color: 1,1,1,1
+                    on_press: root.do_register()
+
+                Button:
+                    text: 'Back to Login'
+                    background_normal: ''
+                    background_color: 0.65, 0.22, 0.22, 1
+                    color: 1,1,1,1
+                    on_press: app.root.current = 'login'

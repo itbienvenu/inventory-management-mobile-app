@@ -1,0 +1,399 @@
+<ProductsScreen>:
+    name: 'products'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [20, 20]
+        spacing: 20
+        canvas.before:
+            Color:
+                rgba: 0.96, 0.97, 0.98, 1  # Light gray background
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # Header Section
+        BoxLayout:
+            size_hint_y: None
+            height: '70dp'
+            spacing: 20
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1  # White background
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [15, 15, 15, 15]
+                # Subtle shadow effect
+                Color:
+                    rgba: 0, 0, 0, 0.05
+                RoundedRectangle:
+                    pos: self.x + 2, self.y - 2
+                    size: self.size
+                    radius: [15, 15, 15, 15]
+
+            BoxLayout:
+                padding: [25, 15]
+                Label:
+                    text: 'Products'
+                    font_size: '24sp'
+                    bold: True
+                    color: 0.2, 0.25, 0.35, 1  # Dark blue-gray
+                    halign: 'left'
+                    text_size: self.size
+                    size_hint_x: 0.7
+
+                Button:
+                    text: 'Back'
+                    size_hint_x: None
+                    width: '90dp'
+                    background_normal: ''
+                    background_color: 0.5, 0.55, 0.65, 1  # Neutral gray
+                    color: 1, 1, 1, 1
+                    font_size: '14sp'
+                    bold: True
+                    on_press: app.root.current = 'dashboard'
+                    canvas.before:
+                        Color:
+                            rgba: self.background_color
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8, 8, 8, 8]
+                    canvas.after:
+                        Color:
+                            rgba: 0, 0, 0, 0.1 if self.state == 'down' else 0
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8, 8, 8, 8]
+
+        # Action Buttons Section
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            spacing: 15
+            padding: [5, 0]
+
+            Button:
+                text: '+ Add Product'
+                on_press: app.root.current = "add_product"
+                background_normal: ''
+                background_color: 0.3, 0.69, 0.49, 1  # Green
+                color: 1, 1, 1, 1
+                font_size: '16sp'
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [12, 12, 12, 12]
+                    # Shadow
+                    Color:
+                        rgba: 0, 0, 0, 0.08
+                    RoundedRectangle:
+                        pos: self.x + 2, self.y - 2
+                        size: self.size
+                        radius: [12, 12, 12, 12]
+
+            Button:
+                text: 'Filter'
+                on_press: root.filter_products()
+                background_normal: ''
+                background_color: 0.27, 0.54, 0.96, 1  # Blue
+                color: 1, 1, 1, 1
+                font_size: '16sp'
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [12, 12, 12, 12]
+                    # Shadow
+                    Color:
+                        rgba: 0, 0, 0, 0.08
+                    RoundedRectangle:
+                        pos: self.x + 2, self.y - 2
+                        size: self.size
+                        radius: [12, 12, 12, 12]
+
+        # Products Container
+        BoxLayout:
+            orientation: 'vertical'
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1  # White background
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [15, 15, 15, 15]
+                # Shadow
+                Color:
+                    rgba: 0, 0, 0, 0.05
+                RoundedRectangle:
+                    pos: self.x + 2, self.y - 3
+                    size: self.size
+                    radius: [15, 15, 15, 15]
+
+            # Header Row
+            BoxLayout:
+                size_hint_y: None
+                height: '50dp'
+                padding: [20, 15]
+                spacing: 10
+                canvas.before:
+                    Color:
+                        rgba: 0.96, 0.97, 0.98, 1  # Light header background
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [15, 15, 0, 0]
+
+                Label:
+                    text: 'ID'
+                    size_hint_x: 0.08
+                    font_size: '14sp'
+                    bold: True
+                    color: 0.4, 0.45, 0.55, 1
+                    halign: 'center'
+                    text_size: self.size
+
+                Label:
+                    text: 'Product Name'
+                    size_hint_x: 0.25
+                    font_size: '14sp'
+                    bold: True
+                    color: 0.4, 0.45, 0.55, 1
+                    halign: 'left'
+                    text_size: self.size
+
+                Label:
+                    text: 'Category'
+                    size_hint_x: 0.18
+                    font_size: '14sp'
+                    bold: True
+                    color: 0.4, 0.45, 0.55, 1
+                    halign: 'left'
+                    text_size: self.size
+
+                Label:
+                    text: 'Image'
+                    size_hint_x: 0.12
+                    font_size: '14sp'
+                    bold: True
+                    color: 0.4, 0.45, 0.55, 1
+                    halign: 'center'
+                    text_size: self.size
+
+                Label:
+                    text: 'Actions'
+                    size_hint_x: 0.37
+                    font_size: '14sp'
+                    bold: True
+                    color: 0.4, 0.45, 0.55, 1
+                    halign: 'center'
+                    text_size: self.size
+
+            # Products List
+            ScrollView:
+                do_scroll_x: False
+                bar_width: 8
+                scroll_type: ['bars', 'content']
+                effect_cls: 'ScrollEffect'
+                
+                RecycleView:
+                    id: rv_products
+                    viewclass: 'ProductRow'
+                    scroll_type: ['bars', 'content']
+                    bar_width: 8
+                    RecycleBoxLayout:
+                        default_size: None, 70
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        spacing: 1
+
+<ProductRow@BoxLayout>:
+    size_hint_y: None
+    height: 70
+    spacing: 10
+    padding: [20, 10]
+    index: 0  # will be set dynamically
+    data: {}     # to store row's data
+    
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1  # White background
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        # Subtle border between rows
+        Color:
+            rgba: 0.94, 0.95, 0.96, 1
+        Rectangle:
+            pos: self.x, self.y
+            size: self.width, 1
+
+    # ID Column
+    Label:
+        text: str(root.product_id) if root.product_id else '0'
+        size_hint_x: 0.08
+        font_size: '13sp'
+        color: 0.3, 0.35, 0.45, 1
+        halign: 'center'
+        valign: 'middle'
+        text_size: self.size
+
+    # Product Name Column
+    Label:
+        text: root.name if root.name else 'No name provided'
+
+        size_hint_x: 0.25
+        font_size: '14sp'
+        bold: True
+        color: 0.2, 0.25, 0.35, 1
+        valign: 'middle'
+        halign: 'left'
+        text_size: self.size
+
+    # Category Column with Status Badge
+    BoxLayout:
+        size_hint_x: 0.18
+        orientation: 'vertical'
+        spacing: 2
+        
+        Label:
+            text: root.data.get('category', '')
+            font_size: '13sp'
+            color: 0.3, 0.35, 0.45, 1
+            valign: 'middle'
+            halign: 'left'
+            text_size: self.size
+            size_hint_y: 0.6
+
+        # Status badge
+        BoxLayout:
+            size_hint_y: 0.4
+            size_hint_x: None
+            width: '60dp'
+            
+            Label:
+                text: 'Active'
+                font_size: '10sp'
+                bold: True
+                color: 1, 1, 1, 1
+                halign: 'center'
+                valign: 'middle'
+                text_size: self.size
+                canvas.before:
+                    Color:
+                        rgba: 0.3, 0.69, 0.49, 1  # Green badge
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10, 10, 10, 10]
+
+    # Image Column
+    BoxLayout:
+        size_hint_x: 0.12
+        padding: [5, 5]
+        
+        Image:
+            source: root.image_path if root.image_path else 'product_images/default_img.png'
+            size_hint: None, None
+            size: 50, 50
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            allow_stretch: True
+            keep_ratio: True
+            canvas.before:
+                Color:
+                    rgba: 0.96, 0.97, 0.98, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [8, 8, 8, 8]
+
+    # Actions Column
+    BoxLayout:
+        size_hint_x: 0.37
+        spacing: 8
+        padding: [0, 15]
+
+        Button:
+            text: 'View'
+            font_size: '12sp'
+            bold: True
+            size_hint_x: None
+            width: 60
+            background_normal: ''
+            background_color: 0.27, 0.54, 0.96, 1  # Blue
+            color: 1, 1, 1, 1
+            on_press: root.view_product(str(root.product_id) if root.product_id else '0')
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [6, 6, 6, 6]
+            canvas.after:
+                Color:
+                    rgba: 0, 0, 0, 0.1 if self.state == 'down' else 0
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [6, 6, 6, 6]
+
+        Button:
+            text: 'Edit'
+            font_size: '12sp'
+            bold: True
+            size_hint_x: None
+            width: 60
+            background_normal: ''
+            background_color: 0.3, 0.69, 0.49, 1  # Green
+            color: 1, 1, 1, 1
+            on_press: root.edit_product(str(root.product_id) if root.product_id else '0')
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [6, 6, 6, 6]
+            canvas.after:
+                Color:
+                    rgba: 0, 0, 0, 0.1 if self.state == 'down' else 0
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [6, 6, 6, 6]
+
+        Button:
+            text: 'Delete'
+            font_size: '12sp'
+            bold: True
+            size_hint_x: None
+            width: 70
+            background_normal: ''
+            background_color: 0.96, 0.35, 0.35, 1  # Red
+            color: 1, 1, 1, 1
+            on_press: root.delete_product(str(root.product_id) if root.product_id else '0')
+            canvas.before:
+                Color:
+                    rgba: self.background_color
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [6, 6, 6, 6]
+            canvas.after:
+                Color:
+                    rgba: 0, 0, 0, 0.1 if self.state == 'down' else 0
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [6, 6, 6, 6]

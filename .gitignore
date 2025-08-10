@@ -1,0 +1,5 @@
+.venv
+.vscode
+users.db
+__pycache__/
+product_images/*

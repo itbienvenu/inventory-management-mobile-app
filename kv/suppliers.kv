@@ -1,0 +1,585 @@
+<SuppliersScreen>:
+    name: 'suppliers'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [20, 20]
+        spacing: 20
+        canvas.before:
+            Color:
+                rgba: 0.96, 0.97, 0.98, 1  # Light gray background
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        # Header Section
+        BoxLayout:
+            size_hint_y: None
+            height: '70dp'
+            spacing: 20
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1  # White background
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [15, 15, 15, 15]
+                # Subtle shadow effect
+                Color:
+                    rgba: 0, 0, 0, 0.05
+                RoundedRectangle:
+                    pos: self.x + 2, self.y - 2
+                    size: self.size
+                    radius: [15, 15, 15, 15]
+
+            BoxLayout:
+                padding: [25, 15]
+                Label:
+                    text: 'Suppliers Management'
+                    font_size: '24sp'
+                    bold: True
+                    color: 0.2, 0.25, 0.35, 1  # Dark blue-gray
+                    halign: 'left'
+                    text_size: self.size
+                    size_hint_x: 0.7
+
+                Button:
+                    text: 'Back'
+                    size_hint_x: None
+                    width: '90dp'
+                    background_normal: ''
+                    background_color: 0.5, 0.55, 0.65, 1  # Neutral gray
+                    color: 1, 1, 1, 1
+                    font_size: '14sp'
+                    bold: True
+                    on_press: app.root.current = 'dashboard'
+                    canvas.before:
+                        Color:
+                            rgba: self.background_color
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8, 8, 8, 8]
+                    canvas.after:
+                        Color:
+                            rgba: 0, 0, 0, 0.1 if self.state == 'down' else 0
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8, 8, 8, 8]
+
+        # Action Bar with Add Supplier and Search
+        BoxLayout:
+            size_hint_y: None
+            height: '60dp'
+            spacing: 15
+            
+            Button:
+                text: '+ Add New Supplier'
+                size_hint_x: 0.3
+                on_press: root.open_add_supplier_dialog()
+                background_normal: ''
+                background_color: 0.3, 0.69, 0.49, 1  # Green
+                color: 1, 1, 1, 1
+                font_size: '16sp'
+                bold: True
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [12, 12, 12, 12]
+                    # Shadow
+                    Color:
+                        rgba: 0, 0, 0, 0.08
+                    RoundedRectangle:
+                        pos: self.x + 2, self.y - 2
+                        size: self.size
+                        radius: [12, 12, 12, 12]
+            
+            # Search functionality
+            TextInput:
+                id: supplier_search
+                hint_text: 'Search suppliers...'
+                size_hint_x: 0.5
+                multiline: False
+                font_size: '14sp'
+                background_color: 1, 1, 1, 1
+                foreground_color: 0.2, 0.25, 0.35, 1
+                cursor_color: 0.3, 0.69, 0.49, 1
+                on_text: root.filter_suppliers(self.text)
+                canvas.before:
+                    Color:
+                        rgba: 1, 1, 1, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [8, 8, 8, 8]
+                    Color:
+                        rgba: 0.9, 0.9, 0.9, 1
+                    Line:
+                        rounded_rectangle: (self.x, self.y, self.width, self.height, 8)
+                        width: 1
+
+            Button:
+                text: 'Export'
+                size_hint_x: 0.2
+                background_normal: ''
+                background_color: 0.27, 0.54, 0.96, 1  # Blue
+                color: 1, 1, 1, 1
+                font_size: '14sp'
+                bold: True
+                on_press: root.export_suppliers()
+                canvas.before:
+                    Color:
+                        rgba: self.background_color
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [8, 8, 8, 8]
+
+        # Suppliers Container
+        BoxLayout:
+            orientation: 'vertical'
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1  # White background
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [15, 15, 15, 15]
+                # Shadow
+                Color:
+                    rgba: 0, 0, 0, 0.05
+                RoundedRectangle:
+                    pos: self.x + 2, self.y - 3
+                    size: self.size
+                    radius: [15, 15, 15, 15]
+
+            # Header Section
+            BoxLayout:
+                size_hint_y: None
+                height: '60dp'
+                padding: [25, 20]
+                spacing: 20
+                canvas.before:
+                    Color:
+                        rgba: 0.96, 0.97, 0.98, 1  # Light header background
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [15, 15, 0, 0]
+
+                Label:
+                    text: 'Supplier Directory'
+                    font_size: '18sp'
+                    bold: True
+                    color: 0.2, 0.25, 0.35, 1  # Dark blue-gray
+                    halign: 'left'
+                    text_size: self.size
+                    size_hint_x: 0.6
+
+                Label:
+                    id: suppliers_count
+                    text: '2 Active Suppliers'
+                    font_size: '14sp'
+                    color: 0.5, 0.55, 0.65, 1
+                    halign: 'right'
+                    text_size: self.size
+                    size_hint_x: 0.4
+
+            # Suppliers List
+            ScrollView:
+                id: suppliers_scroll
+                do_scroll_x: False
+                bar_width: 8
+                scroll_type: ['bars', 'content']
+                effect_cls: 'ScrollEffect'
+                
+                GridLayout:
+                    id: suppliers_grid
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: 2
+                    padding: [20, 10, 20, 20]
+
+                    # Sample Supplier Card 1
+                    BoxLayout:
+                        id: supplier_acme
+                        size_hint_y: None
+                        height: '90dp'
+                        spacing: 20
+                        padding: [20, 15]
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1  # White background
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                            # Subtle border
+                            Color:
+                                rgba: 0.94, 0.95, 0.96, 1
+                            Rectangle:
+                                pos: self.x, self.y
+                                size: self.width, 1
+                            # Hover effect (can be enhanced with custom widget)
+                            Color:
+                                rgba: 0.98, 0.98, 0.98, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                        # Supplier Icon/Avatar
+                        BoxLayout:
+                            size_hint_x: None
+                            width: '60dp'
+                            padding: [5, 5]
+                            
+                            Label:
+                                text: 'AS'
+                                font_size: '18sp'
+                                bold: True
+                                color: 1, 1, 1, 1
+                                halign: 'center'
+                                valign: 'middle'
+                                text_size: self.size
+                                canvas.before:
+                                    Color:
+                                        rgba: 0.27, 0.54, 0.96, 1  # Blue avatar
+                                    RoundedRectangle:
+                                        pos: self.pos
+                                        size: self.size
+                                        radius: [25, 25, 25, 25]
+
+                        # Supplier Info
+                        BoxLayout:
+                            orientation: 'vertical'
+                            spacing: 5
+                            
+                            Label:
+                                text: 'Acme Supplies Ltd.'
+                                font_size: '16sp'
+                                bold: True
+                                color: 0.2, 0.25, 0.35, 1
+                                halign: 'left'
+                                valign: 'center'
+                                text_size: self.size
+                                size_hint_y: 0.4
+
+                            Label:
+                                text: 'Industrial Equipment & Materials'
+                                font_size: '12sp'
+                                color: 0.5, 0.55, 0.65, 1
+                                halign: 'left'
+                                valign: 'center'
+                                text_size: self.size
+                                size_hint_y: 0.3
+
+                            Label:
+                                text: 'Contact: +1-555-0123 | acme@supplies.com'
+                                font_size: '11sp'
+                                color: 0.6, 0.65, 0.75, 1
+                                halign: 'left'
+                                valign: 'center'
+                                text_size: self.size
+                                size_hint_y: 0.3
+
+                        # Status and Rating
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_x: None
+                            width: '100dp'
+                            spacing: 5
+                            padding: [5, 10]
+                            
+                            Label:
+                                text: 'Active'
+                                font_size: '11sp'
+                                bold: True
+                                color: 1, 1, 1, 1
+                                halign: 'center'
+                                valign: 'middle'
+                                text_size: self.size
+                                size_hint_y: 0.5
+                                canvas.before:
+                                    Color:
+                                        rgba: 0.3, 0.69, 0.49, 1  # Green badge
+                                    RoundedRectangle:
+                                        pos: self.pos
+                                        size: self.size
+                                        radius: [12, 12, 12, 12]
+                            
+                            Label:
+                                text: '★★★★☆ 4.2'
+                                font_size: '10sp'
+                                color: 0.9, 0.7, 0.2, 1  # Gold color
+                                halign: 'center'
+                                valign: 'middle'
+                                text_size: self.size
+                                size_hint_y: 0.5
+
+                        # Action Buttons
+                        BoxLayout:
+                            size_hint_x: None
+                            width: '200dp'
+                            spacing: 8
+                            padding: [0, 15]
+                            orientation: 'vertical'
+
+                            BoxLayout:
+                                spacing: 8
+                                
+                                Button:
+                                    text: 'View'
+                                    font_size: '12sp'
+                                    bold: True
+                                    background_normal: ''
+                                    background_color: 0.27, 0.54, 0.96, 1  # Blue
+                                    color: 1, 1, 1, 1
+                                    on_press: root.view_supplier('acme_supplies')
+                                    canvas.before:
+                                        Color:
+                                            rgba: self.background_color
+                                        RoundedRectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                            radius: [6, 6, 6, 6]
+
+                                Button:
+                                    text: 'Edit'
+                                    font_size: '12sp'
+                                    bold: True
+                                    background_normal: ''
+                                    background_color: 0.3, 0.69, 0.49, 1  # Green
+                                    color: 1, 1, 1, 1
+                                    on_press: root.edit_supplier('acme_supplies')
+                                    canvas.before:
+                                        Color:
+                                            rgba: self.background_color
+                                        RoundedRectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                            radius: [6, 6, 6, 6]
+
+                                Button:
+                                    text: 'Delete'
+                                    font_size: '12sp'
+                                    bold: True
+                                    background_normal: ''
+                                    background_color: 0.96, 0.35, 0.35, 1  # Red
+                                    color: 1, 1, 1, 1
+                                    on_press: root.confirm_delete_supplier('acme_supplies')
+                                    canvas.before:
+                                        Color:
+                                            rgba: self.background_color
+                                        RoundedRectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                            radius: [6, 6, 6, 6]
+
+                    # Sample Supplier Card 2
+                    BoxLayout:
+                        id: supplier_global
+                        size_hint_y: None
+                        height: '90dp'
+                        spacing: 20
+                        padding: [20, 15]
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1  # White background
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                            # Subtle border
+                            Color:
+                                rgba: 0.94, 0.95, 0.96, 1
+                            Rectangle:
+                                pos: self.x, self.y
+                                size: self.width, 1
+
+                        # Supplier Icon/Avatar
+                        BoxLayout:
+                            size_hint_x: None
+                            width: '60dp'
+                            padding: [5, 5]
+                            
+                            Label:
+                                text: 'GS'
+                                font_size: '18sp'
+                                bold: True
+                                color: 1, 1, 1, 1
+                                halign: 'center'
+                                valign: 'middle'
+                                text_size: self.size
+                                canvas.before:
+                                    Color:
+                                        rgba: 0.64, 0.42, 0.89, 1  # Purple avatar
+                                    RoundedRectangle:
+                                        pos: self.pos
+                                        size: self.size
+                                        radius: [25, 25, 25, 25]
+
+                        # Supplier Info
+                        BoxLayout:
+                            orientation: 'vertical'
+                            spacing: 5
+                            
+                            Label:
+                                text: 'Global Systems Inc.'
+                                font_size: '16sp'
+                                bold: True
+                                color: 0.2, 0.25, 0.35, 1
+                                halign: 'left'
+                                valign: 'center'
+                                text_size: self.size
+                                size_hint_y: 0.4
+
+                            Label:
+                                text: 'Technology & Software Solutions'
+                                font_size: '12sp'
+                                color: 0.5, 0.55, 0.65, 1
+                                halign: 'left'
+                                valign: 'center'
+                                text_size: self.size
+                                size_hint_y: 0.3
+
+                            Label:
+                                text: 'Contact: +1-555-0456 | info@globalsystems.com'
+                                font_size: '11sp'
+                                color: 0.6, 0.65, 0.75, 1
+                                halign: 'left'
+                                valign: 'center'
+                                text_size: self.size
+                                size_hint_y: 0.3
+
+                        # Status and Rating
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_x: None
+                            width: '100dp'
+                            spacing: 5
+                            padding: [5, 10]
+                            
+                            Label:
+                                text: 'Active'
+                                font_size: '11sp'
+                                bold: True
+                                color: 1, 1, 1, 1
+                                halign: 'center'
+                                valign: 'middle'
+                                text_size: self.size
+                                size_hint_y: 0.5
+                                canvas.before:
+                                    Color:
+                                        rgba: 0.3, 0.69, 0.49, 1  # Green badge
+                                    RoundedRectangle:
+                                        pos: self.pos
+                                        size: self.size
+                                        radius: [12, 12, 12, 12]
+                            
+                            Label:
+                                text: '★★★★★ 4.8'
+                                font_size: '10sp'
+                                color: 0.9, 0.7, 0.2, 1  # Gold color
+                                halign: 'center'
+                                valign: 'middle'
+                                text_size: self.size
+                                size_hint_y: 0.5
+
+                        # Action Buttons
+                        BoxLayout:
+                            size_hint_x: None
+                            width: '200dp'
+                            spacing: 8
+                            padding: [0, 15]
+                            orientation: 'vertical'
+
+                            BoxLayout:
+                                spacing: 8
+                                
+                                Button:
+                                    text: 'View'
+                                    font_size: '12sp'
+                                    bold: True
+                                    background_normal: ''
+                                    background_color: 0.27, 0.54, 0.96, 1  # Blue
+                                    color: 1, 1, 1, 1
+                                    on_press: root.view_supplier('global_systems')
+                                    canvas.before:
+                                        Color:
+                                            rgba: self.background_color
+                                        RoundedRectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                            radius: [6, 6, 6, 6]
+
+                                Button:
+                                    text: 'Edit'
+                                    font_size: '12sp'
+                                    bold: True
+                                    background_normal: ''
+                                    background_color: 0.3, 0.69, 0.49, 1  # Green
+                                    color: 1, 1, 1, 1
+                                    on_press: root.edit_supplier('global_systems')
+                                    canvas.before:
+                                        Color:
+                                            rgba: self.background_color
+                                        RoundedRectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                            radius: [6, 6, 6, 6]
+
+                                Button:
+                                    text: 'Delete'
+                                    font_size: '12sp'
+                                    bold: True
+                                    background_normal: ''
+                                    background_color: 0.96, 0.35, 0.35, 1  # Red
+                                    color: 1, 1, 1, 1
+                                    on_press: root.confirm_delete_supplier('global_systems')
+                                    canvas.before:
+                                        Color:
+                                            rgba: self.background_color
+                                        RoundedRectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                            radius: [6, 6, 6, 6]
+
+        # Footer/Stats Section
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 20
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1  # White background
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10, 10, 10, 10]
+
+            BoxLayout:
+                padding: [20, 10]
+                spacing: 30
+                
+                Label:
+                    text: 'Total Suppliers: 2'
+                    font_size: '12sp'
+                    color: 0.4, 0.45, 0.55, 1
+                    halign: 'left'
+                    text_size: self.size
+                
+                Label:
+                    text: 'Active: 2'
+                    font_size: '12sp'
+                    color: 0.3, 0.69, 0.49, 1
+                    halign: 'center'
+                    text_size: self.size
+                
+                Label:
+                    text: 'Last Updated: Today'
+                    font_size: '12sp'
+                    color: 0.4, 0.45, 0.55, 1
+                    halign: 'right'
+                    text_size: self.size

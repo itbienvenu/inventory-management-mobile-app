@@ -1,0 +1,109 @@
+<AddProductScreen>:
+    name: 'add_product'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+        canvas.before:
+            Color:
+                rgba: 0.06, 0.08, 0.12, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "Add New Product"
+            font_size: "26sp"
+            bold: True
+            color: 1,1,1,1
+            size_hint_y: None
+            height: "50dp"
+
+        TextInput:
+            id: prod_name
+            hint_text: "Product Name"
+            multiline: False
+            font_size: '18sp'
+            padding: [12, 12, 12, 12]
+            background_normal: ''
+            background_color: 0.15,0.15,0.15,1
+            foreground_color: 1,1,1,1
+            size_hint_y: None
+            height: '40dp'
+            cursor_color: 1,1,1,1
+
+        TextInput:
+            id: prod_stock
+            hint_text: "Stock (number)"
+            multiline: False
+            input_filter: "int"
+            font_size: '18sp'
+            padding: [12, 12, 12, 12]
+            background_normal: ''
+            background_color: 0.15,0.15,0.15,1
+            foreground_color: 1,1,1,1
+            size_hint_y: None
+            height: '40dp'
+            cursor_color: 1,1,1,1
+
+        TextInput:
+            id: prod_category
+            hint_text: "Category"
+            multiline: False
+            font_size: '18sp'
+            padding: [12, 12, 12, 12]
+            background_normal: ''
+            background_color: 0.15,0.15,0.15,1
+            foreground_color: 1,1,1,1
+            size_hint_y: None
+            height: '40dp'
+            cursor_color: 1,1,1,1
+
+        BoxLayout:
+            size_hint_y: None
+            height: "40dp"
+            spacing: 10
+            Label:
+                text: "Active"
+                color: 1,1,1,1
+                size_hint_x: None
+                width: '80dp'
+                valign: 'middle'
+                halign: 'left'
+            CheckBox:
+                id: prod_active
+                active: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: "40dp"
+            spacing: 10
+
+            Button:
+                text: "Choose Image"
+                background_color: 0.22, 0.38, 0.9, 1
+                color: 1,1,1,1
+                on_press: root.open_file_chooser()
+
+            Label:
+                id: image_path_label
+                text: "No image selected"
+                color: 1,1,1,1
+                text_size: self.size
+                valign: 'middle'
+                halign: 'left'
+
+        BoxLayout:
+            size_hint_y: None
+            height: "48dp"
+            spacing: 10
+            Button:
+                text: "Add"
+                background_color: 0.16, 0.6, 0.35, 1
+                color: 1,1,1,1
+                on_press: root.add_product()
+            Button:
+                text: "Cancel"
+                background_color: 0.8, 0.1, 0.1, 1
+                color: 1,1,1,1
+                on_press: app.root.current = "products"

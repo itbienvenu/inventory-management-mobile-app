@@ -1,0 +1,45 @@
+<OrdersScreen>:
+    name: 'orders'
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [12,12]
+        spacing: 12
+
+        CommonHeader:
+            Label:
+                text: 'Orders'
+                font_size: '20sp'
+                bold: True
+                color: 1,1,1,1
+            Button:
+                text: 'Back'
+                size_hint_x: None
+                width: '80dp'
+                background_normal: ''
+                background_color: 0.3,0.3,0.3,1
+                color: 1,1,1,1
+                on_press: app.root.current = 'dashboard'
+
+        ScrollView:
+            do_scroll_x: False
+            GridLayout:
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 12
+                padding: [6,6]
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: '100dp'
+                    padding: [10,10]
+                    canvas.before:
+                        Color:
+                            rgba: 0.14,0.16,0.18,1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8]
+                    Label:
+                        text: 'Order #1001 — 3 items — Pending'
+                        color: 1,1,1,1
