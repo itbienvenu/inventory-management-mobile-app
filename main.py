@@ -1,4 +1,4 @@
-from kivy.app import App
+from kivymd.app import MDApp
 from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
@@ -28,7 +28,7 @@ class MyScreenManager(ScreenManager):
     pass
 
 # ===== MAIN APP =====
-class MyApp(App):
+class MyApp(MDApp):
     def build(self):
         create_tables()
         Builder.load_file("kv/login.kv")
