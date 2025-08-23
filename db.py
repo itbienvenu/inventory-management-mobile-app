@@ -37,6 +37,25 @@ def create_tables():
             location TEXT NOT NULL
         )
     ''')
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS clients (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    phone TEXT
+);
+""")
+    
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS debts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    client_id INTEGER NOT NULL,
+    product TEXT NOT NULL,
+    amount REAL NOT NULL,
+    FOREIGN KEY(client_id) REFERENCES clients(id)
+);
+
+""")
     # Junction table for product-store relationship
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS product_stores (

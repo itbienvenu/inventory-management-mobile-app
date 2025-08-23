@@ -15,19 +15,10 @@ from kivymd.uix.textfield import MDTextField
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.button import MDFlatButton
-import sqlite3
-import os
 from kivy.metrics import dp
-from kivy.uix.popup import Popup
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image
-from kivy.uix.label import Label
-from kivy.uix.button import Button
-
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.uix.scrollview import ScrollView
-from kivy.metrics import dp
+
 
 
 class ProductPopup(Popup):

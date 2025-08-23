@@ -1,0 +1,68 @@
+<ClientRow>:
+    orientation: "horizontal"
+    spacing: dp(10)
+    MDLabel:
+        text: root.name
+        halign: "left"
+    MDLabel:
+        text: root.phone
+        halign: "right"
+    MDIconButton:
+        icon: "eye"
+        on_release: app.root.get_screen("debtors").view_client_debts(root.client_id)
+
+<DebtRow>:
+    orientation: "horizontal"
+    spacing: dp(10)
+    MDLabel:
+        text: root.product
+        halign: "left"
+    MDLabel:
+        text: root.amount
+        halign: "center"
+    MDIconButton:
+        icon: "pencil"
+        on_release: app.root.get_screen("debtors").edit_debt(root.debt_id, root.amount)
+    MDIconButton:
+        icon: "delete"
+        on_release: app.root.get_screen("debtors").delete_debt(root.debt_id)
+
+
+<DebtorsScreen>:
+    name: "debtors"
+    MDBoxLayout:
+        orientation: "horizontal"
+
+        # Clients list
+        MDBoxLayout:
+            orientation: "vertical"
+            MDLabel:
+                text: "Clients"
+                halign: "center"
+            RecycleView:
+                id: clients_rv
+                viewclass: "ClientRow"
+                RecycleBoxLayout:
+                    default_size: None, dp(56)
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: "vertical"
+
+        # Debts details
+        MDBoxLayout:
+            orientation: "vertical"
+            MDLabel:
+                text: "Debts"
+                halign: "center"
+            RecycleView:
+                id: debts_rv
+                viewclass: "DebtRow"
+                RecycleBoxLayout:
+                    default_size: None, dp(56)
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: "vertical"
+
+            MDFlatButton:
+                text: "Add Debt"
+                on_release: root.open_add_debt_dialog()

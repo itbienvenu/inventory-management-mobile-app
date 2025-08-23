@@ -21,6 +21,7 @@ from screens.reports_screen import ReportsScreen
 from screens.settings_screen import SettingsScreen
 from screens.add_product_screen import AddProductScreen
 from screens.edit_product_screen import EditProductScreen
+from screens.debtors_screen import DebtorsScreen
 from db import create_tables
 
 
@@ -41,6 +42,7 @@ class MyApp(MDApp):
         Builder.load_file("kv/settings.kv")
         Builder.load_file("kv/add_product.kv")
         Builder.load_file("kv/edit_product.kv")
+        Builder.load_file("kv/debtors.kv")
 
 
         self.load_sample_data()
@@ -56,6 +58,7 @@ class MyApp(MDApp):
         sm.add_widget(SettingsScreen(name="settings"))
         sm.add_widget(AddProductScreen(name="add_product"))
         sm.add_widget(EditProductScreen(name="edit_product"))
+        sm.add_widget(DebtorsScreen(name="debtors"))
 
         Builder.load_file("my.kv")
 
